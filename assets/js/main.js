@@ -1,6 +1,9 @@
-
 (function() {
   "use strict";
+  // Portfolio by Keannu B. Gran — keannugran19.github.io
+  console.log('%c Keannu Gran Portfolio ', 'background:#1a72b8;color:#fff;font-size:14px;font-weight:bold;padding:4px 8px;border-radius:4px;');
+  console.log('%c Full-Stack Web & Mobile Developer ', 'color:#1a72b8;font-size:11px;');
+
 
   /**
    * Header toggle
@@ -36,6 +39,16 @@
       this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
       e.stopImmediatePropagation();
     });
+  });
+
+
+  /**
+   * Close mobile nav on Escape key
+   */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.querySelector('.header-show')) {
+      headerToggle();
+    }
   });
 
   /**
@@ -74,7 +87,7 @@
    */
   function aosInit() {
     AOS.init({
-      duration: 600,
+      duration: 500,
       easing: 'ease-in-out',
       once: true,
       mirror: false
@@ -92,8 +105,8 @@
     new Typed('.typed', {
       strings: typed_strings,
       loop: true,
-      typeSpeed: 100,
-      backSpeed: 50,
+      typeSpeed: 80,
+      backSpeed: 40,
       backDelay: 2000
     });
   }
@@ -160,6 +173,19 @@
 
   });
 
+
+  /**
+   * Portfolio filter — update URL hash for shareability
+   */
+  document.querySelectorAll('.isotope-filters li').forEach(function(filterBtn) {
+    filterBtn.addEventListener('click', function() {
+      const filter = this.getAttribute('data-filter');
+      if (filter && filter !== '*') {
+        history.replaceState(null, '', ' ');
+      }
+    });
+  });
+
   /**
    * Init swiper sliders
    */
@@ -204,7 +230,8 @@
 
   function navmenuScrollspy() {
     navmenulinks.forEach(navmenulink => {
-      if (!navmenulink.hash) return;
+      // Skip external links (e.g. resume PDF download)
+      if (!navmenulink.hash || navmenulink.target === '_blank') return;
       let section = document.querySelector(navmenulink.hash);
       if (!section) return;
       let position = window.scrollY + 200;
@@ -214,7 +241,7 @@
       } else {
         navmenulink.classList.remove('active');
       }
-    })
+    });
   }
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
